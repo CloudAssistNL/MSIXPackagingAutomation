@@ -87,8 +87,8 @@ function RunConversionJobs($conversionsParameters, $virtualMachines, $remoteMach
 
             Write-Host "TemplateFilePath: $($TemplateFilePath) "
             Write-Host "Starting Process:"
-           
-            $process = Start-Process "powershell.exe" -ArgumentList("-file `"$runJobScriptPath`"", "-jobId", $jobId, "-vmName", "`"$vmName`"", "-vmsCount", $virtualMachines.Count, "-machinePassword", $password, "-templateFilePath", $templateFilePath, "-initialSnapshotName", $initialSnapshotName) -PassThru
+        
+            $process = Start-Process "powershell.exe" -ArgumentList("-file `"$runJobScriptPath`"", "-jobId", $jobId, "-vmName `"$vmName`"", "-vmsCount", $virtualMachines.Count, "-machinePassword", $password, "-templateFilePath `"$templateFilePath`"", "-initialSnapshotName", $initialSnapshotName) -PassThru
             $vmsCurrentJobMap[$vm.Name] = $process
         }
         else {
