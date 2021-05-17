@@ -37,13 +37,13 @@ $virtualMachines = @(
 # Make sure that Remote Powershell is enabled, en that the default MSIX remote port is open. And create the Certificate that is needed.
 if ($virtualMachines) {
     foreach ($vm in $virtualMachines) {
-        if (!(Test-Path "HKLM:\Software\CloudAssist\MSIXTool\$env:COMPUTERNAME")) {
+        if (!(Test-Path "HKLM:\Software\CloudAssist\MSIXTool\$vm")) {
             Invoke-Command -VMName $vm.Name -ScriptBlock $Scriptblock -Credential $credential -ArgumentList ($env:COMPUTERNAME)
             $session = New-PSSession -VMName $vm.Name -Credential $credential
             Copy-Item -Path "C:\WinRMCert.crt" -Destination "C:\Packages\WinRMCert.crt" -FromSession $session
             Import-Certificate -FilePath "C:\Packages\WinRMCert.crt" -CertStoreLocation Cert:\LocalMachine\My
             Remove-PSSession -Session $session
-            New-Item -Path "HKLM:\Software\CloudAssist\MSIXTool\$env:COMPUTERNAME" -force | Out-Null
+            New-Item -Path "HKLM:\Software\CloudAssist\MSIXTool\$vm" -force | Out-Null
         }
     }
 }
